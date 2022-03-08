@@ -44,10 +44,10 @@ func CalculateForAppliance(appliance bool) float64 {
 	return 10
 }
 
-func CalculateTotalPressureLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64) float64 {
-	return CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle) + CalculateForAppliance(true)
+func CalculateTotalPressureLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, appliance bool) float64 {
+	return CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle) + CalculateForAppliance(appliance)
 }
 
-func CalculatePumpDischargePressure(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64) float64 {
-	return CalculateTotalPressureLoss(hoseLength, hoseSize, tipSize, nozzle) + nozzle
+func CalculatePumpDischargePressure(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, appliance bool) float64 {
+	return CalculateTotalPressureLoss(hoseLength, hoseSize, tipSize, nozzle, appliance) + nozzle
 }
