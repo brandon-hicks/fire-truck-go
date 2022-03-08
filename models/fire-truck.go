@@ -1,53 +1,45 @@
 package models
 
 import (
-	"math"
+	"fmt"
 )
 
-func CoefficientDerivedFromHoseSize(hoseSize float64) float64 {
-	switch hoseSize {
-	case 0.75:
-		return 1100.0
-	case 1.5:
-		return 24.0
-	case 1.75:
-		return 15.5
-	case 2.5:
-		return 2.0
-	case 3.0:
-		return 0.8
-	case 4.0:
-		return 0.2
-	case 5.0:
-		return 0.08
-	default:
-		return 15.5
+func MakeCalculations() {
+	text := ReadFromConsole("What calculation do you want to perform? Your choices are: gpm, pdp, FL, totalPL. ")
+
+	if text == "gpm" {
+		tipSize := FindTipSize()
+		nozzleCoefficient := FindNozzleCoefficient()
+
+		fmt.Println(CalculateActualGallonsPerMinute(tipSize, float64(nozzleCoefficient)))
+
+	} else if text == "pdp" {
+		tipSize := FindTipSize()
+		nozzleCoefficient := FindNozzleCoefficient()
+		hoseLength := FindHoseLength()
+		hoseSize := FindHoseSize()
+		appliance := FindAppliance()
+
+		fmt.Println(CalculatePumpDischargePressure(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient), appliance))
+
+	} else if text == "FL" {
+		tipSize := FindTipSize()
+		nozzleCoefficient := FindNozzleCoefficient()
+		hoseSize := FindHoseSize()
+		hoseLength := FindHoseLength()
+
+		fmt.Println(CalculateFrictionLoss(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient)))
+
+	} else if text == "totalPL" {
+		tipSize := FindTipSize()
+		nozzleCoefficient := FindNozzleCoefficient()
+		hoseLength := FindHoseLength()
+		hoseSize := FindHoseSize()
+		appliance := FindAppliance()
+
+		fmt.Println(CalculateTotalPressureLoss(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient), appliance))
+
+	} else {
+		fmt.Println("Please enter one of the following to get a proper calculation: gpm, pdp, FL, totalPL.")
 	}
-}
-
-func CalculateActualGallonsPerMinute(tipSize float64, nozzle float64) float64 {
-	return float64(29.7 * math.Pow(tipSize, 2) * math.Sqrt(nozzle))
-}
-
-func CalculateGallonsPerMinute(tipSize float64, nozzle float64) float64 {
-	return float64(29.7 * math.Pow(tipSize, 2) * math.Sqrt(nozzle) / 100)
-}
-
-func CalculateFrictionLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64) float64 {
-	return float64(CoefficientDerivedFromHoseSize(hoseSize) * math.Pow(CalculateGallonsPerMinute(tipSize, nozzle), 2) * (hoseLength / 100))
-}
-
-func CalculateForAppliance(appliance bool) float64 {
-	if !appliance {
-		return 0
-	}
-	return 10
-}
-
-func CalculateTotalPressureLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, appliance bool) float64 {
-	return CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle) + CalculateForAppliance(appliance)
-}
-
-func CalculatePumpDischargePressure(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, appliance bool) float64 {
-	return CalculateTotalPressureLoss(hoseLength, hoseSize, tipSize, nozzle, appliance) + nozzle
 }
