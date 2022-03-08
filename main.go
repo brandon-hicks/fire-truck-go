@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fire-truck-go/models"
+	"fmt"
+)
 
 func main() {
-	fmt.Println("Hello, world.")
+	fmt.Println(models.CalculateGallonsPerMinute(1.25, 100))
 }
