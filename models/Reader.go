@@ -1,8 +1,10 @@
 package models
 
 import (
+	"bufio"
 	"fmt"
 	"log"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -73,19 +75,22 @@ func FindTipSize() float64 {
 }
 
 func FindNozzleCoefficient() int {
-	var nozzleType string
-	fmt.Println("Please enter the nozzle coefficient. Your choices are: 50, 80, or 100")
-	_, err := fmt.Scan(&nozzleType)
+	scanner := bufio.NewReader(os.Stdin)
+	//var nozzleType string
+	fmt.Println("Please enter nozzle type: Smooth Bore Hand, Smooth Bore Master, Fog")
+	nozzleType, err := scanner.ReadString('\n')
 	if err != nil {
 		log.Fatal(err)
 	}
+	lowerCaseNozzleType := strings.ToLower(nozzleType)
+	trimmedNozzleType := strings.Trim(lowerCaseNozzleType, "\n")
 
-	switch nozzleType {
-	case "50":
+	switch trimmedNozzleType {
+	case "smooth bore hand":
 		return 50
-	case "80":
+	case "smooth bore master":
 		return 80
-	case "100":
+	case "fog":
 		return 100
 	default:
 		return 50
