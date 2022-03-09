@@ -40,7 +40,7 @@ func CalculateFrictionLoss(hoseLength float64, hoseSize float64, tipSize float64
 	return int(calculation)
 }
 
-func CalculateForAppliance(appliance bool) float64 {
+func CalculateForAppliance(appliance bool) int {
 	if !appliance {
 		return 0
 	}
@@ -48,7 +48,7 @@ func CalculateForAppliance(appliance bool) float64 {
 }
 
 func CalculateTotalPressureLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, appliance bool) int {
-	calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle)) + CalculateForAppliance(appliance)
+	calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle)) + float64(CalculateForAppliance(appliance))
 	return int(calculation)
 }
 
