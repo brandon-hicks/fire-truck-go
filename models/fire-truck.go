@@ -40,6 +40,6 @@ func MakeCalculations() {
 		fmt.Println(CalculateTotalPressureLoss(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient), appliance))
 
 	} else {
-		fmt.Println("Please enter one of the following to get a proper calculation: gpm, pdp, FL, totalPL.")
+		fmt.Println("You did not enter a correct calculation type.")
 	}
 }
