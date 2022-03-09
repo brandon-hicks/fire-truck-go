@@ -5,7 +5,7 @@ import (
 )
 
 func MakeCalculations() {
-	text := ReadFromConsole("What calculation do you want to perform? Your choices are: gpm, pdp, FL, totalPL. ")
+	text := Findtext()
 
 	if text == "gpm" {
 		tipSize := FindTipSize()
@@ -22,7 +22,7 @@ func MakeCalculations() {
 
 		fmt.Println(CalculatePumpDischargePressure(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient), appliance))
 
-	} else if text == "FL" {
+	} else if text == "fl" {
 		tipSize := FindTipSize()
 		nozzleCoefficient := FindNozzleCoefficient()
 		hoseSize := FindHoseSize()
@@ -30,7 +30,7 @@ func MakeCalculations() {
 
 		fmt.Println(CalculateFrictionLoss(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient)))
 
-	} else if text == "totalPL" {
+	} else if text == "totalpl" {
 		tipSize := FindTipSize()
 		nozzleCoefficient := FindNozzleCoefficient()
 		hoseLength := FindHoseLength()

@@ -1,19 +1,23 @@
 package models
 
 import (
-	"bufio"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func ReadFromConsole(textForConsole string) string {
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Println(textForConsole)
-	text, _ := reader.ReadString('\n')
-	text = strings.Trim(text, "\n")
+func Findtext() string {
+	var text string
+	fmt.Println("What calculation do you want to perform? Your choices are: gpm, pdp, FL, totalPL.")
+	_, err := fmt.Scan(&text)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if strings.ToLower(text) == "" {
+		log.Panic("Please enter a correct calculation type")
+	}
 	return text
 }
 
@@ -75,14 +79,17 @@ func FindNozzleCoefficient() int {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if nozzleType == "" {
-		log.Panic("Please enter a proper coefficient.")
+
+	switch nozzleType {
+	case "50":
+		return 50
+	case "80":
+		return 80
+	case "100":
+		return 100
+	default:
+		return 50
 	}
-	nozzleCoefficient, err := strconv.Atoi(nozzleType)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return nozzleCoefficient
 }
 
 func FindAppliance() bool {
