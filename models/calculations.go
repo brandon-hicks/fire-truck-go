@@ -25,16 +25,19 @@ func CoefficientDerivedFromHoseSize(hoseSize float64) float64 {
 	}
 }
 
-func CalculateActualGallonsPerMinute(tipSize float64, nozzle float64) float64 {
-	return float64(29.7 * math.Pow(tipSize, 2) * math.Sqrt(nozzle))
+func CalculateActualGallonsPerMinute(tipSize float64, nozzle float64) int {
+	calculation := float64(29.7 * math.Pow(tipSize, 2) * math.Sqrt(nozzle))
+	return int(calculation)
 }
 
-func CalculateGallonsPerMinute(tipSize float64, nozzle float64) float64 {
-	return float64(29.7 * math.Pow(tipSize, 2) * math.Sqrt(nozzle) / 100)
+func CalculateGallonsPerMinute(tipSize float64, nozzle float64) int {
+	calculation := float64(29.7 * math.Pow(tipSize, 2) * math.Sqrt(nozzle) / 100)
+	return int(calculation)
 }
 
-func CalculateFrictionLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64) float64 {
-	return float64(CoefficientDerivedFromHoseSize(hoseSize) * math.Pow(CalculateGallonsPerMinute(tipSize, nozzle), 2) * (hoseLength / 100))
+func CalculateFrictionLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64) int {
+	calculation := float64(CoefficientDerivedFromHoseSize(hoseSize) * math.Pow(float64(CalculateGallonsPerMinute(tipSize, nozzle)), 2) * (hoseLength / 100))
+	return int(calculation)
 }
 
 func CalculateForAppliance(appliance bool) float64 {
@@ -44,10 +47,12 @@ func CalculateForAppliance(appliance bool) float64 {
 	return 10
 }
 
-func CalculateTotalPressureLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, appliance bool) float64 {
-	return CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle) + CalculateForAppliance(appliance)
+func CalculateTotalPressureLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, appliance bool) int {
+	calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle)) + CalculateForAppliance(appliance)
+	return int(calculation)
 }
 
-func CalculatePumpDischargePressure(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, appliance bool) float64 {
-	return CalculateTotalPressureLoss(hoseLength, hoseSize, tipSize, nozzle, appliance) + nozzle
+func CalculatePumpDischargePressure(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, appliance bool) int {
+	calculation := float64(CalculateTotalPressureLoss(hoseLength, hoseSize, tipSize, nozzle, appliance)) + nozzle
+	return int(calculation)
 }
