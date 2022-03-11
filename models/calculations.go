@@ -4,6 +4,7 @@ import (
 	"math"
 )
 
+// Finds the value of C in the Friction Loss Formula
 func CoefficientDerivedFromHoseSize(hoseSize float64) float64 {
 	switch hoseSize {
 	case 0.75:
@@ -25,18 +26,18 @@ func CoefficientDerivedFromHoseSize(hoseSize float64) float64 {
 	}
 }
 
-func CalculateActualGallonsPerMinute(tipSize float64, nozzle float64) int {
-	calculation := float64(29.7 * math.Pow(tipSize, 2) * math.Sqrt(nozzle))
-	return int(calculation)
+// Finds the value of Q in the Friction Loss Formula and devides it by 100
+func CalculateGallonsPerMinute(tipSize float64, nozzle float64, fog bool) int {
+	if fog != true {
+		calculation := float64(29.7 * math.Pow(tipSize, 2) * math.Sqrt(nozzle))
+		return int(calculation)
+	}
+	return 100
 }
 
-func CalculateGallonsPerMinute(tipSize float64, nozzle float64) int {
-	calculation := float64(29.7 * math.Pow(tipSize, 2) * math.Sqrt(nozzle) / 100)
-	return int(calculation)
-}
-
-func CalculateFrictionLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64) int {
-	calculation := float64(CoefficientDerivedFromHoseSize(hoseSize) * math.Pow(float64(CalculateGallonsPerMinute(tipSize, nozzle)), 2) * (hoseLength / 100))
+// FL =C*(Q/100)^2*L/100
+func CalculateFrictionLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool) int {
+	calculation := float64(CoefficientDerivedFromHoseSize(hoseSize) * math.Pow(float64(CalculateGallonsPerMinute(tipSize, nozzle, fog)/100), 2) * hoseLength / 100)
 	return int(calculation)
 }
 
@@ -47,12 +48,14 @@ func CalculateForAppliance(appliance bool) int {
 	return 10
 }
 
-func CalculateTotalPressureLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, appliance bool) int {
-	calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle)) + float64(CalculateForAppliance(appliance))
+// TPL=FL+AL+/-EP
+func CalculateTotalPressureLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool, appliance bool) int {
+	calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) //+ float64(CalculateForAppliance(appliance))
 	return int(calculation)
 }
 
-func CalculatePumpDischargePressure(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, appliance bool) int {
-	calculation := float64(CalculateTotalPressureLoss(hoseLength, hoseSize, tipSize, nozzle, appliance)) + nozzle
+// PDP=NP+TPL
+func CalculatePumpDischargePressure(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool, appliance bool) int {
+	calculation := float64(CalculateTotalPressureLoss(hoseLength, hoseSize, tipSize, nozzle, fog, appliance)) + nozzle
 	return int(calculation)
 }

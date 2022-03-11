@@ -57,8 +57,26 @@ func FindHoseLength() int {
 	return hoseLength
 }
 
-func FindTipSize() float64 {
+func IsFogTip() bool {
+	var fog string
+	fmt.Printf("Yes/No: Is this a fog nozzle?")
+	_, err := fmt.Scan(&fog)
+	if err != nil {
+		log.Fatal(err)
+	}
+	lowerCaseFog := strings.ToLower(fog)
+
+	if lowerCaseFog == "yes" {
+		return true
+	}
+	return false
+}
+
+func FindTipSize(fog bool) float64 {
 	var nozzleTipSize string
+	if fog != false {
+		return 1
+	}
 	fmt.Println("Please enter the tip size")
 	_, err := fmt.Scan(&nozzleTipSize)
 	if err != nil {
@@ -74,10 +92,13 @@ func FindTipSize() float64 {
 	return tipSize
 }
 
-func FindNozzleCoefficient() int {
+func FindNozzleCoefficient(fog bool) int {
+	if fog == true {
+		return 100
+	}
 	scanner := bufio.NewReader(os.Stdin)
 	//var nozzleType string
-	fmt.Println("Please enter nozzle type: Smooth Bore Hand, Smooth Bore Master, Fog")
+	fmt.Println("Please enter nozzle type: Smooth Bore Hand or Smooth Bore Master")
 	nozzleType, err := scanner.ReadString('\n')
 	if err != nil {
 		log.Fatal(err)
@@ -90,8 +111,6 @@ func FindNozzleCoefficient() int {
 		return 50
 	case "smooth bore master":
 		return 80
-	case "fog":
-		return 100
 	default:
 		return 50
 	}
