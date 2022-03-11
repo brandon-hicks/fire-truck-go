@@ -50,7 +50,7 @@ func CalculateForAppliance(appliance bool) int {
 
 // TPL=FL+AL+/-EP
 func CalculateTotalPressureLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool, appliance bool) int {
-	calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) //+ float64(CalculateForAppliance(appliance))
+	calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance))
 	return int(calculation)
 }
 
