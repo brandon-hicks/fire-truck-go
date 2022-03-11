@@ -41,6 +41,7 @@ func CalculateFrictionLoss(hoseLength float64, hoseSize float64, tipSize float64
 	return int(calculation)
 }
 
+// If an appliance is added then this will add 10 to that calculation. There is still some work to be done around this part.
 func CalculateForAppliance(appliance bool) int {
 	if !appliance {
 		return 0
