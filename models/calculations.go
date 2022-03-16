@@ -28,7 +28,7 @@ func CoefficientDerivedFromHoseSize(hoseSize float64) float64 {
 
 // Finds the value of Q in the Friction Loss Formula and devides it by 100
 func CalculateGallonsPerMinute(tipSize float64, nozzle float64, fog bool) int {
-	if fog != true {
+	if !fog {
 		calculation := float64(29.7 * math.Pow(tipSize, 2) * math.Sqrt(nozzle))
 		return int(calculation)
 	}

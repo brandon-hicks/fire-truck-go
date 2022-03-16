@@ -47,6 +47,7 @@ func MakeCalculations() {
 		fmt.Println(CalculateTotalPressureLoss(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient), fog, appliance))
 
 	} else {
-		fmt.Println("You did not enter a correct calculation type.")
+		fmt.Println("Please enter a valid calculation type.")
+		MakeCalculations()
 	}
 }

@@ -18,7 +18,8 @@ func Findtext() string {
 	}
 
 	if strings.ToLower(text) == "" {
-		log.Panic("Please enter a correct calculation type")
+		fmt.Println("Please enter a correct calculation type")
+		Findtext()
 	}
 	return text
 }
@@ -31,7 +32,8 @@ func FindHoseSize() float64 {
 		log.Fatal(err)
 	}
 	if totalHoseSize == "" {
-		log.Panic("Please enter a proper hose size")
+		fmt.Println("Please enter a proper hose size")
+		FindHoseSize()
 	}
 	hoseSize, err := strconv.ParseFloat(totalHoseSize, 64)
 	if err != nil {
@@ -48,7 +50,8 @@ func FindHoseLength() int {
 		log.Fatal(err)
 	}
 	if totalHoseLength == "" {
-		log.Panic("Please enter a proper length.")
+		fmt.Println("Please enter a proper length.")
+		FindHoseLength()
 	}
 	hoseLength, err := strconv.Atoi(totalHoseLength)
 	if err != nil {
@@ -74,7 +77,7 @@ func IsFogTip() bool {
 
 func FindTipSize(fog bool) float64 {
 	var nozzleTipSize string
-	if fog != false {
+	if fog {
 		return 1
 	}
 	fmt.Println("Please enter the tip size")
@@ -83,17 +86,18 @@ func FindTipSize(fog bool) float64 {
 		log.Fatal(err)
 	}
 	if nozzleTipSize == "" {
-		log.Panic("Please enter a proper tip size.")
+		fmt.Println("You did not enter a proper tip size.")
+		FindTipSize(fog)
 	}
 	tipSize, err := strconv.ParseFloat(nozzleTipSize, 64)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("You did not enter a proper tip size.", FindTipSize(fog))
 	}
 	return tipSize
 }
 
 func FindNozzleCoefficient(fog bool) int {
-	if fog == true {
+	if fog {
 		return 100
 	}
 	scanner := bufio.NewReader(os.Stdin)
