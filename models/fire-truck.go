@@ -24,8 +24,9 @@ func MakeCalculations() {
 		hoseLength := FindHoseLength()
 		hoseSize := FindHoseSize()
 		appliance := FindAppliance()
+		elevation := FindElevation()
 
-		fmt.Println(CalculatePumpDischargePressure(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient), fog, appliance))
+		fmt.Println(CalculatePumpDischargePressure(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient), fog, appliance, elevation))
 
 	} else if lowerCaseText == "fl" {
 		fog := IsFogTip()
@@ -43,8 +44,9 @@ func MakeCalculations() {
 		hoseLength := FindHoseLength()
 		hoseSize := FindHoseSize()
 		appliance := FindAppliance()
+		elevation := FindElevation()
 
-		fmt.Println(CalculateTotalPressureLoss(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient), fog, appliance))
+		fmt.Println(CalculateTotalPressureLoss(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient), fog, appliance, elevation))
 
 	} else {
 		fmt.Println("Please enter a valid calculation type.")

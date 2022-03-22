@@ -51,14 +51,23 @@ func CalculateForAppliance(appliance bool) int {
 	return 10
 }
 
+func CalculateForElevation(elevation bool) int {
+	if !elevation {
+		return 0
+	}
+	elevationNumber := FindElevationType()
+	return elevationNumber
+
+}
+
 // TPL=FL+AL+/-EP
-func CalculateTotalPressureLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool, appliance bool) int {
-	calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance))
+func CalculateTotalPressureLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool, appliance bool, elevation bool) int {
+	calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance)+CalculateForElevation(elevation))
 	return int(calculation)
 }
 
 // PDP=NP+TPL
-func CalculatePumpDischargePressure(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool, appliance bool) int {
-	calculation := float64(CalculateTotalPressureLoss(hoseLength, hoseSize, tipSize, nozzle, fog, appliance)) + nozzle
+func CalculatePumpDischargePressure(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool, appliance bool, elevation bool) int {
+	calculation := float64(CalculateTotalPressureLoss(hoseLength, hoseSize, tipSize, nozzle, fog, appliance, elevation)) + nozzle
 	return int(calculation)
 }

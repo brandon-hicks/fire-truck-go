@@ -67,9 +67,7 @@ func IsFogTip() bool {
 	if err != nil {
 		log.Fatal(err)
 	}
-	lowerCaseFog := strings.ToLower(fog)
-
-	if lowerCaseFog == "yes" {
+	if strings.ToLower(fog) == "yes" {
 		return true
 	}
 	return false
@@ -131,4 +129,58 @@ func FindAppliance() bool {
 		return true
 	}
 	return false
+}
+
+func FindElevation() bool {
+	var elevation string
+	fmt.Printf("Yes/No: Is there elevation? ")
+	_, err := fmt.Scan(&elevation)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if strings.ToLower(elevation) == "yes" {
+		return true
+	}
+	return false
+}
+
+func FindElevationType() int {
+	var elevationGain string
+	var typeOfElevation string
+	var amountOfFloors int
+	var amountOfFeet int
+	fmt.Println("Are you going to be going up or down?")
+	_, err := fmt.Scan(&elevationGain)
+	if err != nil {
+		log.Fatal(err)
+	}
+	lowerCaseElevationGain := strings.ToLower(elevationGain)
+	if lowerCaseElevationGain == "up" {
+		fmt.Println("Are you going up floors or hills?")
+		_, err := fmt.Scan(&typeOfElevation)
+		if err != nil {
+			log.Fatal(err)
+		}
+		lowerCaseTypeOfElevation := strings.ToLower(typeOfElevation)
+		// for floors there is a 5psi loss per floor after the first floor.
+		if lowerCaseTypeOfElevation == "floors" {
+			fmt.Println("How many floors are you going up?")
+			_, err := fmt.Scan(&amountOfFloors)
+			if err != nil {
+				log.Fatal(err)
+			}
+			totalPressureLostFromFloors := (amountOfFloors - 1) + 5
+			return totalPressureLostFromFloors
+		} else {
+			fmt.Println("How many feet of elevation will you have?")
+			// for elevation that does not come from floors there is a 5 psi loss of pressure per .5 foot over the pump.
+			_, err := fmt.Scan(&amountOfFeet)
+			if err != nil {
+				log.Fatal(err)
+			}
+			totalPressureLostFromFeet := (amountOfFeet / 2) + 5
+			return totalPressureLostFromFeet
+		}
+	}
+	return 0
 }
