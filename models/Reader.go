@@ -144,43 +144,52 @@ func FindElevation() bool {
 	return false
 }
 
-func FindElevationType() int {
-	var elevationGain string
+func FindElevationPsi(elevationGain string) int {
+	if strings.ToLower(elevationGain) == "up" {
+		return ElevationCalculation()
+	} else if strings.ToLower(elevationGain) == "down" {
+		return ElevationCalculation()
+	}
+	return 0
+}
+
+func ElevationCalculation() int {
 	var typeOfElevation string
 	var amountOfFloors int
 	var amountOfFeet int
+	fmt.Println("Are you adjusting for floors or hills?")
+	_, err := fmt.Scan(&typeOfElevation)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// for floors there is a 5 psi loss or gain per floor after the first floor.
+	if strings.ToLower(typeOfElevation) == "floors" {
+		fmt.Println("How many floors are you adjusting for?")
+		_, err := fmt.Scan(&amountOfFloors)
+		if err != nil {
+			log.Fatal(err)
+		}
+		totalPressureLostFromFloors := (amountOfFloors - 1) * 5
+		return totalPressureLostFromFloors
+	} else {
+		fmt.Println("How many feet of elevation will you be adjusting for?")
+		// for elevation that does not come from floors there is a 5 psi loss of pressure per .5 foot over the pump and 5 psi gain for every .5 foot under the pump.
+		_, err := fmt.Scan(&amountOfFeet)
+		if err != nil {
+			log.Fatal(err)
+		}
+		totalPressureLostFromFeet := (amountOfFeet * 2) * 5
+		return totalPressureLostFromFeet
+	}
+}
+
+func FindElevationType() string {
+	var elevationGain string
+
 	fmt.Println("Are you going to be going up or down?")
 	_, err := fmt.Scan(&elevationGain)
 	if err != nil {
 		log.Fatal(err)
 	}
-	lowerCaseElevationGain := strings.ToLower(elevationGain)
-	if lowerCaseElevationGain == "up" {
-		fmt.Println("Are you going up floors or hills?")
-		_, err := fmt.Scan(&typeOfElevation)
-		if err != nil {
-			log.Fatal(err)
-		}
-		lowerCaseTypeOfElevation := strings.ToLower(typeOfElevation)
-		// for floors there is a 5psi loss per floor after the first floor.
-		if lowerCaseTypeOfElevation == "floors" {
-			fmt.Println("How many floors are you going up?")
-			_, err := fmt.Scan(&amountOfFloors)
-			if err != nil {
-				log.Fatal(err)
-			}
-			totalPressureLostFromFloors := (amountOfFloors - 1) + 5
-			return totalPressureLostFromFloors
-		} else {
-			fmt.Println("How many feet of elevation will you have?")
-			// for elevation that does not come from floors there is a 5 psi loss of pressure per .5 foot over the pump.
-			_, err := fmt.Scan(&amountOfFeet)
-			if err != nil {
-				log.Fatal(err)
-			}
-			totalPressureLostFromFeet := (amountOfFeet / 2) + 5
-			return totalPressureLostFromFeet
-		}
-	}
-	return 0
+	return elevationGain
 }

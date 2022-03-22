@@ -2,6 +2,7 @@ package models
 
 import (
 	"math"
+	"strings"
 )
 
 // Finds the value of C in the Friction Loss Formula
@@ -51,18 +52,27 @@ func CalculateForAppliance(appliance bool) int {
 	return 10
 }
 
-func CalculateForElevation(elevation bool) int {
+func CalculateForElevation(elevation bool, elevationType string) int {
 	if !elevation {
 		return 0
 	}
-	elevationNumber := FindElevationType()
+	elevationNumber := FindElevationPsi(elevationType)
 	return elevationNumber
 
 }
 
 // TPL=FL+AL+/-EP
 func CalculateTotalPressureLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool, appliance bool, elevation bool) int {
-	calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance)+CalculateForElevation(elevation))
+	if elevation {
+		elevationType := FindElevationType()
+		if strings.ToLower(elevationType) == "down" {
+			calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance)-CalculateForElevation(elevation, elevationType))
+			return int(calculation)
+		}
+		calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance)+CalculateForElevation(elevation, elevationType))
+		return int(calculation)
+	}
+	calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance))
 	return int(calculation)
 }
 
