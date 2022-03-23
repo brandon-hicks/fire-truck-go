@@ -155,8 +155,8 @@ func FindElevationPsi(elevationGain string) int {
 
 func ElevationCalculation() int {
 	var typeOfElevation string
-	var amountOfFloors int
-	var amountOfFeet int
+	var amountOfFloors float64
+	var amountOfFeet float64
 	fmt.Println("Are you adjusting for floors or hills?")
 	_, err := fmt.Scan(&typeOfElevation)
 	if err != nil {
@@ -170,7 +170,7 @@ func ElevationCalculation() int {
 			log.Fatal(err)
 		}
 		totalPressureLostFromFloors := (amountOfFloors - 1) * 5
-		return totalPressureLostFromFloors
+		return int(totalPressureLostFromFloors)
 	} else {
 		fmt.Println("How many feet of elevation will you be adjusting for?")
 		// for elevation that does not come from floors there is a 5 psi loss of pressure per .5 foot over the pump and 5 psi gain for every .5 foot under the pump.
@@ -178,8 +178,8 @@ func ElevationCalculation() int {
 		if err != nil {
 			log.Fatal(err)
 		}
-		totalPressureLostFromFeet := (amountOfFeet * 2) * 5
-		return totalPressureLostFromFeet
+		totalPressureLostFromFeet := amountOfFeet * 0.5
+		return int(totalPressureLostFromFeet)
 	}
 }
 
