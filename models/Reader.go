@@ -173,7 +173,7 @@ func ElevationCalculation() int {
 		return int(totalPressureLostFromFloors)
 	} else {
 		fmt.Println("How many feet of elevation will you be adjusting for?")
-		// for elevation that does not come from floors there is a 5 psi loss of pressure per .5 foot over the pump and 5 psi gain for every .5 foot under the pump.
+		// for elevation that does not come from floors there is a .5 psi loss of pressure per foot over the pump and .5 psi gain for every foot under the pump.
 		_, err := fmt.Scan(&amountOfFeet)
 		if err != nil {
 			log.Fatal(err)
