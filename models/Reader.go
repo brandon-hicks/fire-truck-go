@@ -38,7 +38,7 @@ func IsSameSize() bool {
 	} else if strings.ToLower(sameSize) == "no" {
 		return false
 	}
-	return FindCalculationType()
+	return IsSameSize()
 }
 
 func Findtext() string {
