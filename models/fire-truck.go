@@ -130,6 +130,25 @@ func MakeCalculations() {
 				nozzleCoefficient := FindNozzleCoefficient(fog)
 
 				fmt.Println(CalculateGallonsPerMinute(tipSize, float64(nozzleCoefficient), fog))
+
+			} else if strings.ToLower(text) == "totalpl" {
+				fogOne := IsFogTip()
+				tipSizeOne := FindTipSize(fogOne)
+				nozzleCoefficientOne := FindNozzleCoefficient(fogOne)
+				fogTwo := IsFogTip()
+				tipSizeTwo := FindTipSize(fogTwo)
+				nozzleCoefficientTwo := FindNozzleCoefficient(fogTwo)
+				hoseSizeOne := FindHoseSize()
+				hoseSizeTwo := FindHoseSize()
+				hoseLengthOne := FindHoseLength()
+				hoseLengthTwo := FindHoseLength()
+				appliance := FindAppliance()
+				elevation := FindElevation()
+
+				fmt.Println(CalculateTotalPressureLossInMultiLinesOfDifferentLengths(float64(hoseLengthOne), float64(hoseLengthTwo),
+					hoseSizeOne, hoseSizeTwo, tipSizeOne, tipSizeTwo, float64(nozzleCoefficientOne), float64(nozzleCoefficientTwo), fogOne, fogTwo,
+					appliance, elevation))
+
 			} else if strings.ToLower(text) == "pdp" {
 				fogOne := IsFogTip()
 				tipSizeOne := FindTipSize(fogOne)
