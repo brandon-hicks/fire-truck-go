@@ -81,3 +81,9 @@ func CalculatePumpDischargePressure(hoseLength float64, hoseSize float64, tipSiz
 	calculation := float64(CalculateTotalPressureLoss(hoseLength, hoseSize, tipSize, nozzle, fog, appliance, elevation)) + nozzle
 	return int(calculation)
 }
+
+// FL =(C*(Q/100)^2*L/100)/2
+func CalculateFrictionLossInMultipleLinesOfSameSize(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool) int {
+	calculation := (CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) / 2
+	return int(calculation)
+}

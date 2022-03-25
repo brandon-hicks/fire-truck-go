@@ -9,6 +9,22 @@ import (
 	"strings"
 )
 
+func FindCalculationType() bool {
+	var multiline string
+	fmt.Println("Is this going to include multiple lines?")
+	_, err := fmt.Scan(&multiline)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if strings.ToLower(multiline) == "yes" {
+		return true
+	} else if strings.ToLower(multiline) == "no" {
+		return false
+	}
+	return FindCalculationType()
+}
+
 func Findtext() string {
 	var text string
 	fmt.Println("What calculation do you want to perform? Your choices are: gpm, pdp, FL, totalPL.")
