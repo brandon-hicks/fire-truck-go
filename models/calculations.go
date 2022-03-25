@@ -40,7 +40,8 @@ func CalculateGallonsPerMinute(tipSize float64, nozzle float64, fog bool) int {
 
 // FL =C*(Q/100)^2*L/100
 func CalculateFrictionLoss(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool) int {
-	calculation := float64(CoefficientDerivedFromHoseSize(hoseSize) * math.Pow(float64(CalculateGallonsPerMinute(tipSize, nozzle, fog)/100), 2) * hoseLength / 100)
+	calculation := float64(CoefficientDerivedFromHoseSize(hoseSize) * math.Pow(float64(CalculateGallonsPerMinute(tipSize, nozzle, fog)/100), 2) *
+		hoseLength / 100)
 	return int(calculation)
 }
 
@@ -66,10 +67,12 @@ func CalculateTotalPressureLoss(hoseLength float64, hoseSize float64, tipSize fl
 	if elevation {
 		elevationType := FindElevationType()
 		if strings.ToLower(elevationType) == "down" {
-			calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance)-CalculateForElevation(elevation, elevationType))
+			calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance)-
+				CalculateForElevation(elevation, elevationType))
 			return int(calculation)
 		}
-		calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance)+CalculateForElevation(elevation, elevationType))
+		calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance)+
+			CalculateForElevation(elevation, elevationType))
 		return int(calculation)
 	}
 	calculation := float64(CalculateFrictionLoss(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance))
@@ -89,22 +92,64 @@ func CalculateFrictionLossInMultipleLinesOfSameSize(hoseLength float64, hoseSize
 }
 
 // TPL=FL+AL+/-EP
-func CalculateTotalPressureLossInMultiLinesOfSameSize(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool, appliance bool, elevation bool) int {
+func CalculateTotalPressureLossInMultiLinesOfSameSize(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool, appliance bool,
+	elevation bool) int {
 	if elevation {
 		elevationType := FindElevationType()
 		if strings.ToLower(elevationType) == "down" {
-			calculation := float64(CalculateFrictionLossInMultipleLinesOfSameSize(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance)-CalculateForElevation(elevation, elevationType))
+			calculation := float64(CalculateFrictionLossInMultipleLinesOfSameSize(hoseLength, hoseSize, tipSize, nozzle, fog)) +
+				float64(CalculateForAppliance(appliance)-CalculateForElevation(elevation, elevationType))
 			return int(calculation)
 		}
-		calculation := float64(CalculateFrictionLossInMultipleLinesOfSameSize(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance)+CalculateForElevation(elevation, elevationType))
+		calculation := float64(CalculateFrictionLossInMultipleLinesOfSameSize(hoseLength, hoseSize, tipSize, nozzle, fog)) +
+			float64(CalculateForAppliance(appliance)+CalculateForElevation(elevation, elevationType))
 		return int(calculation)
 	}
-	calculation := float64(CalculateFrictionLossInMultipleLinesOfSameSize(hoseLength, hoseSize, tipSize, nozzle, fog)) + float64(CalculateForAppliance(appliance))
+	calculation := float64(CalculateFrictionLossInMultipleLinesOfSameSize(hoseLength, hoseSize, tipSize, nozzle, fog)) +
+		float64(CalculateForAppliance(appliance))
 	return int(calculation)
 }
 
 // PDP=NP+TPL
-func CalculatePumpDischargePressureInMultiLinesOfSameSize(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool, appliance bool, elevation bool) int {
+func CalculatePumpDischargePressureInMultiLinesOfSameSize(hoseLength float64, hoseSize float64, tipSize float64, nozzle float64, fog bool, appliance bool,
+	elevation bool) int {
 	calculation := float64(CalculateTotalPressureLossInMultiLinesOfSameSize(hoseLength, hoseSize, tipSize, nozzle, fog, appliance, elevation)) + nozzle
+	return int(calculation)
+}
+
+func CalculateFrictionLossInMultipleLinesOfDifferentLengths(hoseLengthOne float64, hoseLengthTwo float64, hoseSizeOne float64, hoseSizeTwo float64,
+	tipSizeOne float64, tipSizeTwo float64, nozzleOne float64, nozzleTwo float64, fogOne bool, fogTwo bool) int {
+	hoseOne := (CalculateFrictionLoss(hoseLengthOne, hoseSizeOne, tipSizeOne, nozzleOne, fogOne))
+	hoseTwo := (CalculateFrictionLoss(hoseLengthTwo, hoseSizeTwo, tipSizeTwo, nozzleTwo, fogTwo))
+	calculation := (hoseOne + hoseTwo) / 2
+	return int(calculation)
+}
+
+// TPL=FL+AL+/-EP
+func CalculateTotalPressureLossInMultiLinesOfDifferentLengths(hoseLengthOne float64, hoseLengthTwo float64, hoseSizeOne float64, hoseSizeTwo float64,
+	tipSizeOne float64, tipSizeTwo float64, nozzleOne float64, nozzleTwo float64, fogOne bool, fogTwo bool, appliance bool, elevation bool) int {
+	if elevation {
+		elevationType := FindElevationType()
+		if strings.ToLower(elevationType) == "down" {
+			calculation := float64(CalculateFrictionLossInMultipleLinesOfDifferentLengths(hoseLengthOne, hoseLengthTwo, hoseSizeOne, hoseLengthTwo,
+				tipSizeOne, tipSizeTwo, nozzleOne, nozzleTwo, fogOne, fogTwo)) + float64(CalculateForAppliance(appliance)-
+				CalculateForElevation(elevation, elevationType))
+			return int(calculation)
+		}
+		calculation := float64(CalculateFrictionLossInMultipleLinesOfDifferentLengths(hoseLengthOne, hoseLengthTwo, hoseSizeOne, hoseLengthTwo,
+			tipSizeOne, tipSizeTwo, nozzleOne, nozzleTwo, fogOne, fogTwo)) + float64(CalculateForAppliance(appliance)+
+			CalculateForElevation(elevation, elevationType))
+		return int(calculation)
+	}
+	calculation := float64(CalculateFrictionLossInMultipleLinesOfDifferentLengths(hoseLengthOne, hoseLengthTwo, hoseSizeOne, hoseLengthTwo, tipSizeOne,
+		tipSizeTwo, nozzleOne, nozzleTwo, fogOne, fogTwo)) + float64(CalculateForAppliance(appliance))
+	return int(calculation)
+}
+
+// PDP=NP+TPL
+func CalculatePumpDischargePressureInMultiLinesOfDifferentLengths(hoseLengthOne float64, hoseLengthTwo float64, hoseSizeOne float64, hoseSizeTwo float64,
+	tipSizeOne float64, tipSizeTwo float64, nozzleOne float64, nozzleTwo float64, fogOne bool, fogTwo bool, appliance bool, elevation bool) int {
+	calculation := float64(CalculateTotalPressureLossInMultiLinesOfDifferentLengths(hoseLengthOne, hoseLengthTwo, hoseSizeOne, hoseLengthTwo,
+		tipSizeOne, tipSizeTwo, nozzleOne, nozzleTwo, fogOne, fogTwo, appliance, elevation)) + nozzleOne + nozzleTwo
 	return int(calculation)
 }

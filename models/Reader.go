@@ -25,6 +25,22 @@ func FindCalculationType() bool {
 	return FindCalculationType()
 }
 
+func IsSameSize() bool {
+	var sameSize string
+	fmt.Println("Are these line going to be the same size and length?")
+	_, err := fmt.Scan(&sameSize)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if strings.ToLower(sameSize) == "yes" {
+		return true
+	} else if strings.ToLower(sameSize) == "no" {
+		return false
+	}
+	return FindCalculationType()
+}
+
 func Findtext() string {
 	var text string
 	fmt.Println("What calculation do you want to perform? Your choices are: gpm, pdp, FL, totalPL.")
@@ -189,7 +205,8 @@ func ElevationCalculation() int {
 		return int(totalPressureLostFromFloors)
 	} else {
 		fmt.Println("How many feet of elevation will you be adjusting for?")
-		// for elevation that does not come from floors there is a .5 psi loss of pressure per foot over the pump and .5 psi gain for every foot under the pump.
+		// for elevation that does not come from floors there is a .5 psi loss of pressure per foot over the pump
+		// and .5 psi gain for every foot under the pump.
 		_, err := fmt.Scan(&amountOfFeet)
 		if err != nil {
 			log.Fatal(err)

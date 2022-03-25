@@ -56,48 +56,102 @@ func MakeCalculations() {
 			MakeCalculations()
 		}
 	} else {
-		text := Findtext()
 
-		if strings.ToLower(text) == "fl" {
-			fog := IsFogTip()
-			tipSize := FindTipSize(fog)
-			nozzleCoefficient := FindNozzleCoefficient(fog)
-			hoseSize := FindHoseSize()
-			hoseLength := FindHoseLength()
+		sameSize := IsSameSize()
 
-			fmt.Println(CalculateFrictionLossInMultipleLinesOfSameSize(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient), fog))
+		if sameSize {
+			text := Findtext()
 
-		} else if strings.ToLower(text) == "totalpl" {
-			fog := IsFogTip()
-			tipSize := FindTipSize(fog)
-			nozzleCoefficient := FindNozzleCoefficient(fog)
-			hoseLength := FindHoseLength()
-			hoseSize := FindHoseSize()
-			appliance := FindAppliance()
-			elevation := FindElevation()
+			if strings.ToLower(text) == "fl" {
+				fog := IsFogTip()
+				tipSize := FindTipSize(fog)
+				nozzleCoefficient := FindNozzleCoefficient(fog)
+				hoseSize := FindHoseSize()
+				hoseLength := FindHoseLength()
 
-			fmt.Println(CalculateTotalPressureLossInMultiLinesOfSameSize(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient), fog, appliance, elevation))
-		} else if strings.ToLower(text) == "pdp" {
-			fog := IsFogTip()
-			tipSize := FindTipSize(fog)
-			nozzleCoefficient := FindNozzleCoefficient(fog)
-			hoseLength := FindHoseLength()
-			hoseSize := FindHoseSize()
-			appliance := FindAppliance()
-			elevation := FindElevation()
+				fmt.Println(CalculateFrictionLossInMultipleLinesOfSameSize(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient), fog))
 
-			fmt.Println(CalculatePumpDischargePressureInMultiLinesOfSameSize(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient), fog, appliance, elevation))
-		} else if strings.ToLower(text) == "gpm" {
-			fog := IsFogTip()
-			tipSize := FindTipSize(fog)
+			} else if strings.ToLower(text) == "totalpl" {
+				fog := IsFogTip()
+				tipSize := FindTipSize(fog)
+				nozzleCoefficient := FindNozzleCoefficient(fog)
+				hoseLength := FindHoseLength()
+				hoseSize := FindHoseSize()
+				appliance := FindAppliance()
+				elevation := FindElevation()
 
-			nozzleCoefficient := FindNozzleCoefficient(fog)
+				fmt.Println(CalculateTotalPressureLossInMultiLinesOfSameSize(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient), fog,
+					appliance, elevation))
+			} else if strings.ToLower(text) == "pdp" {
+				fog := IsFogTip()
+				tipSize := FindTipSize(fog)
+				nozzleCoefficient := FindNozzleCoefficient(fog)
+				hoseLength := FindHoseLength()
+				hoseSize := FindHoseSize()
+				appliance := FindAppliance()
+				elevation := FindElevation()
 
-			fmt.Println(CalculateGallonsPerMinute(tipSize, float64(nozzleCoefficient), fog))
+				fmt.Println(CalculatePumpDischargePressureInMultiLinesOfSameSize(float64(hoseLength), hoseSize, tipSize, float64(nozzleCoefficient),
+					fog, appliance, elevation))
+			} else if strings.ToLower(text) == "gpm" {
+				fog := IsFogTip()
+				tipSize := FindTipSize(fog)
 
+				nozzleCoefficient := FindNozzleCoefficient(fog)
+
+				fmt.Println(CalculateGallonsPerMinute(tipSize, float64(nozzleCoefficient), fog))
+
+			} else {
+				fmt.Println("Please enter a valid calculation type.")
+				MakeCalculations()
+			}
 		} else {
-			fmt.Println("Please enter a valid calculation type.")
-			MakeCalculations()
+			text := Findtext()
+
+			if strings.ToLower(text) == "fl" {
+				fogOne := IsFogTip()
+				tipSizeOne := FindTipSize(fogOne)
+				nozzleCoefficientOne := FindNozzleCoefficient(fogOne)
+				fogTwo := IsFogTip()
+				tipSizeTwo := FindTipSize(fogTwo)
+				nozzleCoefficientTwo := FindNozzleCoefficient(fogTwo)
+				hoseSizeOne := FindHoseSize()
+				hoseSizeTwo := FindHoseSize()
+				hoseLengthOne := FindHoseLength()
+				hoseLengthTwo := FindHoseLength()
+
+				fmt.Println(CalculateFrictionLossInMultipleLinesOfDifferentLengths(float64(hoseLengthOne), float64(hoseLengthTwo), hoseSizeOne,
+					hoseSizeTwo, tipSizeOne, tipSizeTwo, float64(nozzleCoefficientOne), float64(nozzleCoefficientTwo), fogOne, fogTwo))
+
+			} else if strings.ToLower(text) == "gpm" {
+				fog := IsFogTip()
+				tipSize := FindTipSize(fog)
+
+				nozzleCoefficient := FindNozzleCoefficient(fog)
+
+				fmt.Println(CalculateGallonsPerMinute(tipSize, float64(nozzleCoefficient), fog))
+			} else if strings.ToLower(text) == "pdp" {
+				fogOne := IsFogTip()
+				tipSizeOne := FindTipSize(fogOne)
+				nozzleCoefficientOne := FindNozzleCoefficient(fogOne)
+				fogTwo := IsFogTip()
+				tipSizeTwo := FindTipSize(fogTwo)
+				nozzleCoefficientTwo := FindNozzleCoefficient(fogTwo)
+				hoseSizeOne := FindHoseSize()
+				hoseSizeTwo := FindHoseSize()
+				hoseLengthOne := FindHoseLength()
+				hoseLengthTwo := FindHoseLength()
+				appliance := FindAppliance()
+				elevation := FindElevation()
+
+				fmt.Println(CalculatePumpDischargePressureInMultiLinesOfDifferentLengths(float64(hoseLengthOne), float64(hoseLengthTwo),
+					hoseSizeOne, hoseSizeTwo, tipSizeOne, tipSizeTwo, float64(nozzleCoefficientOne), float64(nozzleCoefficientTwo), fogOne, fogTwo,
+					appliance, elevation))
+
+			} else {
+				fmt.Println("Please enter a valid calculation type.")
+				MakeCalculations()
+			}
 		}
 	}
 }
